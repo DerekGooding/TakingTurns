@@ -84,8 +84,8 @@ public static class Program
     {
         if (int.TryParse(inputs[0], out int range))
             ChangeSimulationRange(range);
-        if (inputs.Length == 2 && int.TryParse(inputs[1], out int speed) && speed > 0)
-            CreateUnit(inputs[0], speed);
+        if (inputs.Length >= 2 && int.TryParse(inputs[^1], out int speed) && speed > 0)
+            CreateUnit(string.Join(' ', inputs[0..^1]), speed);
     }
 
     private static void ChangeSimulationRange(int range) => _simulationRange = Math.Clamp(range, 1, 200);
