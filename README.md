@@ -14,6 +14,6 @@ The faster unit lapping every 5th turn.
 # Roadmap
 
 - ~~Unit testing~~ more unit testing
-- WPF visualization
+- ~~WPF visualization~~ Improve WPF visualization
 - Any suggestions are welcome
 - Possible Unity package
