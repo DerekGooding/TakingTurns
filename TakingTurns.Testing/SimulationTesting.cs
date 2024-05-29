@@ -53,7 +53,6 @@ public class SimulationTesting
         Assert.AreEqual(simulatedResults[1].Name, normal.Name);
     }
 
-
     [TestMethod]
     public void Should_Lap_2digit()
     {

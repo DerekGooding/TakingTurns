@@ -21,13 +21,17 @@ public class Engine()
 
         return result;
     }
+
     internal Unit Step() => Step(_tracker);
 
     internal void Add(Unit unit) => _tracker.Add(new(unit, 0));
+
     internal void Destroy(Unit unit) => _tracker.Remove(_tracker.Find(x => x.unit.Name == unit.Name));
+
     internal void Modify(Unit unit) => _tracker.Find(x => x.unit.Name == unit.Name).unit.Speed = unit.Speed;
 
     private Unit Step(List<(Unit unit, int time)> simulation) => Step(simulation, Tick);
+
     private static Unit Step(List<(Unit unit, int time)> simulation, int tick)
     {
         if (simulation.All(x => x.time < tick))

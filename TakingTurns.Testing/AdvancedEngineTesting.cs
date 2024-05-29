@@ -16,7 +16,6 @@ public class AdvancedEngineTesting
         Unit first = testEngine.Step();
         Unit second = testEngine.Step();
 
-
         Assert.AreEqual(first.Name, fast.Name);
         Assert.AreEqual(second.Name, normal.Name);
     }
@@ -74,7 +73,7 @@ public class AdvancedEngineTesting
     {
         const int simulationLength = 20;
         Engine testEngine = new();
-        for (int i = 0;i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             Unit testUnit = new($"Name_{i}", i * Random.Shared.Next(70, 200));
             testEngine.Add(testUnit);

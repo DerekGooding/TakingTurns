@@ -5,9 +5,10 @@ public static class Program
     private static bool _isExiting;
     private static Engine _engine = new();
     private static int _simulationRange = 20;
+
     private static void Main()
     {
-        while(!_isExiting)
+        while (!_isExiting)
         {
             HandlePainting();
             HandleInput(Console.ReadLine() ?? string.Empty);
@@ -19,8 +20,8 @@ public static class Program
         Console.Clear();
         PrintCommands();
         (int left, int top) = Console.GetCursorPosition();
-        PrintTurnOrder(50,0);
-        PrintUnitList(100,0);
+        PrintTurnOrder(50, 0);
+        PrintUnitList(100, 0);
 
         Console.SetCursorPosition(left, top);
     }
@@ -43,7 +44,7 @@ public static class Program
         {
             if (y >= Console.BufferHeight)
                 return;
-            Console.SetCursorPosition(x,y++);
+            Console.SetCursorPosition(x, y++);
             Console.Write(unit.Name);
         });
     }
@@ -68,12 +69,15 @@ public static class Program
             case "X":
                 _isExiting = true;
                 break;
+
             case "S":
                 _engine.Step();
                 break;
+
             case "R":
                 _engine = new();
                 break;
+
             default:
                 HandleOther(inputs);
                 break;
@@ -89,5 +93,6 @@ public static class Program
     }
 
     private static void ChangeSimulationRange(int range) => _simulationRange = Math.Clamp(range, 1, 200);
+
     private static void CreateUnit(string name, int speed) => _engine.Add(new Unit(name, speed));
 }
