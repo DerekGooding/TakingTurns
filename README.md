@@ -1,6 +1,5 @@
 # Description
-
-This is a small Console application that tracks turn order in a similar fashion to Roleplaying games. 
+This is an emulator for turn taking similar to Classic RPG games. 
 
 Units with a faster speed stat may lap slower units. 
 
@@ -11,9 +10,15 @@ Speed 100 and 120 will function the same as Speed 1 million and 1.2 million.
 As would 10 and 12. 
 The faster unit lapping every 5th turn.
 
+# Console
+Build and run TakingTurns to have things visualized with a console application. The core code is in here also for reference or copying.
+
+# WPF
+Build and run TakingTurns.WPF to have a window with general visuals and a application style menu. It uses the logic directly from the console application. 
+
 # Roadmap
 
-- ~~Unit testing~~ more unit testing
-- ~~WPF visualization~~ Improve WPF visualization
+- ~~Unit testing~~
+- ~~WPF visualization~~
 - Any suggestions are welcome
 - Possible Unity package
