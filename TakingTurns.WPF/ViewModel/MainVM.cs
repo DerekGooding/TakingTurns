@@ -14,17 +14,28 @@ public class MainVM : ViewModelBase
         set => SetProperty(ref _nameField, value);
     }
 
-    private int _speedField = 0;
+    private int _speedField;
     public int SpeedField
     {
         get => _speedField;
         set => SetProperty(ref _speedField, value);
     }
 
-    public ObservableCollection<string> Units = [];
-    public ObservableCollection<string> Simulation = [];
+    private string? _selectedUnit;
+    public string? SelectedUnit
+    {
+        get => _selectedUnit;
+        set => SetProperty(ref _selectedUnit, value);
+    }
 
-    private readonly Engine _engine = new();
+    public bool FieldsVarified => SpeedField > 0 && !string.IsNullOrEmpty(NameField);
+
+    public ObservableCollection<string> Units { get; set; } = [];
+    public ObservableCollection<string> Simulation { get; set; } = [];
+
+    private Engine _engine = new();
+
+    private int _simulationLength = 10;
 
     #region Commands
     public AddUnitCommand AddUnitCommand { get; set; }
@@ -32,6 +43,7 @@ public class MainVM : ViewModelBase
     public ModifyUnitCommand ModifyUnitCommand { get; set; }
     public SetSimulationLengthCommand SetSimulationLengthCommand { get; set; }
     public StepCommand StepCommand { get; set; }
+    public ResetCommand ResetCommand { get; set; }
     #endregion
 
     public MainVM()
@@ -41,32 +53,59 @@ public class MainVM : ViewModelBase
         ModifyUnitCommand = new(this);
         SetSimulationLengthCommand = new(this);
         StepCommand = new(this);
+        ResetCommand = new(this);
+    }
+
+    private void RefreshCollections()
+    {
+        Units.Clear();
+        _engine.Units.ForEach(x => Units.Add($"{x}"));
+        Simulation.Clear();
+        int count = 1;
+        _engine.Simulate(_simulationLength).ForEach(x => Simulation.Add($"{count++:00}. {x.Name}"));
     }
 
     #region Command Methods
     internal void AddUnit()
     {
-        throw new NotImplementedException();
+        _engine.Add(new(NameField, _speedField));
+        RefreshCollections();
     }
 
     internal void DestroyUnit()
     {
-        throw new NotImplementedException();
+        Unit? target = _engine.Units.Find(x => $"{x}" == SelectedUnit);
+        if (target == null)
+            return;
+        _engine.Destroy(target);
+        RefreshCollections();
     }
 
     internal void ModifyUnit()
     {
-        throw new NotImplementedException();
+        Unit? target = _engine.Units.Find(x => $"{x}" == SelectedUnit);
+        if (target == null)
+            return;
+        target.Speed = SpeedField;
+        RefreshCollections();
     }
 
     internal void SetSimulationLength()
     {
-        throw new NotImplementedException();
+        _simulationLength = _simulationLength == 10 ? 30 : 10;
+        RefreshCollections();
     }
 
     internal void Step()
     {
-        throw new NotImplementedException();
+        _engine.Step();
+        RefreshCollections();
+    }
+
+    internal void Reset()
+    {
+        _engine = new();
+        RefreshCollections();
     }
     #endregion
 }

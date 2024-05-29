@@ -4,8 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:TakingTurns.WPF.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainVM}"
+        xmlns:c="clr-namespace:TakingTurns.WPF.View.Converters"
         mc:Ignorable="d"
         Title="Taking Turns" Height="300" Width="400">
+    <Window.Resources>
+        <c:StringToIntConverter x:Key="StringToIntConverter"/>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding AddUnitCommand}" Gesture="Ctrl+W" />
+        <KeyBinding Command="{Binding DestroyUnitCommand}" Gesture="Ctrl+D" />
+        <KeyBinding Command="{Binding StepCommand}" Gesture="Ctrl+S" />
+    </Window.InputBindings>
+    
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -14,25 +24,35 @@
                 <MenuItem Header="_Exit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Unit">
-                <MenuItem Header="_Add" Command="{Binding AddUnitCommand}"/>
-                <MenuItem Header="_Destroy" Command="{Binding DestroyUnitCommand}"/>
+                <MenuItem Header="_Add" Command="{Binding AddUnitCommand}" InputGestureText="Ctrl+W"/>
+                <MenuItem Header="_Destroy" Command="{Binding DestroyUnitCommand}" InputGestureText="Ctrl+D"/>
                 <MenuItem Header="_Modify" Command="{Binding ModifyUnitCommand}"/>
             </MenuItem>
             <MenuItem Header="_Engine">
-                <MenuItem Header="_Step" Command="{Binding StepCommand}"/>
+                <MenuItem Header="_Step" Command="{Binding StepCommand}" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="_Length" Command="{Binding SetSimulationLengthCommand}"/>
+                <Separator/>
+                <MenuItem Header="_Reset" Command="{Binding ResetCommand}"/>
             </MenuItem>
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">
-            
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Name "/>
+                    <TextBox Text="{Binding NameField, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                    <TextBlock Text=" Speed "/>
+                    <TextBox Text="{Binding SpeedField, Converter={StaticResource StringToIntConverter}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                </StackPanel>
+            </StatusBarItem>
         </StatusBar>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" ItemsSource="{Binding Units}" d:ItemsSource="{d:SampleData}"/>
+            <ListView Grid.Column="0" ItemsSource="{Binding Units}" d:ItemsSource="{d:SampleData}"
+                      SelectedItem="{Binding SelectedUnit, Mode=TwoWay}" SelectionMode="Single"/>
 
             <ListView Grid.Column="1" ItemsSource="{Binding Simulation}" d:ItemsSource="{d:SampleData}"/>
         </Grid>

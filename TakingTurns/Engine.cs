@@ -6,7 +6,7 @@ public class Engine()
     private int Tick => _tracker.Max(x => x.unit.Speed);
     public List<Unit> Units => _tracker.ConvertAll(x => x.unit);
 
-    internal List<Unit> Simulate(int length)
+    public List<Unit> Simulate(int length)
     {
         if (_tracker.Count == 0)
             return [];
@@ -22,13 +22,13 @@ public class Engine()
         return result;
     }
 
-    internal Unit Step() => Step(_tracker);
+    public Unit Step() => Step(_tracker);
 
-    internal void Add(Unit unit) => _tracker.Add(new(unit, 0));
+    public void Add(Unit unit) => _tracker.Add(new(unit, 0));
 
-    internal void Destroy(Unit unit) => _tracker.Remove(_tracker.Find(x => x.unit.Name == unit.Name));
+    public void Destroy(Unit unit) => _tracker.Remove(_tracker.Find(x => x.unit.Name == unit.Name));
 
-    internal void Modify(Unit unit) => _tracker.Find(x => x.unit.Name == unit.Name).unit.Speed = unit.Speed;
+    public void Modify(Unit unit) => _tracker.Find(x => x.unit.Name == unit.Name).unit.Speed = unit.Speed;
 
     private Unit Step(List<(Unit unit, int time)> simulation) => Step(simulation, Tick);
 
